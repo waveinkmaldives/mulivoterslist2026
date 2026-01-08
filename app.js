@@ -164,10 +164,6 @@ function createHouseCard(house) {
             <!-- Info Grid -->
             <div class="space-y-3 mb-4">
                 <div class="flex items-center gap-2 text-gray-700">
-                    <span class="text-xl">${sizeInfo.icon}</span>
-                    <span><strong class="text-gray-900">Head Count:</strong> ${sizeInfo.category}</span>
-                </div>
-                <div class="flex items-center gap-2 text-gray-700">
                     <span class="text-xl">👥</span>
                     <span><strong class="text-gray-900">Residents:</strong> ${house.residents}</span>
                 </div>
