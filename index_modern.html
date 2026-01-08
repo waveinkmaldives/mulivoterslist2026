@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M. Muli Island Houses - Modern Directory</title>
+    <link rel="stylesheet" href="styles_modern.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-header">
+                <div class="logo">🏝️ M. Muli</div>
+                <div class="island-stats">
+                    <!-- Stats will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="search-filter-section">
+                <div class="search-box">
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        placeholder="🔍 Search by house name or resident..."
+                    >
+                </div>
+                
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All Houses</button>
+                    <button class="filter-btn" data-filter="large">Large (7+)</button>
+                    <button class="filter-btn" data-filter="medium">Medium (4-6)</button>
+                    <button class="filter-btn" data-filter="small">Small (1-3)</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- House List Section -->
+    <section class="house-list-section">
+        <div class="container">
+            <h1 class="section-title">Explore Our Island Community</h1>
+            <p class="section-subtitle">Browse through all houses and discover residents of M. Muli</p>
+            
+            <div class="house-grid">
+                <!-- House cards will be populated by JavaScript -->
+                <div class="loading">Loading houses</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal for House Details -->
+    <div id="houseModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>House Details</h2>
+                <span class="close-btn">&times;</span>
+            </div>
+            <div class="modal-body">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script src="app_modern.js"></script>
+</body>
+</html>

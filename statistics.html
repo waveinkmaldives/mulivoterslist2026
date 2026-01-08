@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M. Muli Statistics - Houses & Residents Overview</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-purple-900 font-sans">
+    
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/10 backdrop-blur-xl border-b border-white/20 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex items-center justify-between flex-wrap gap-4">
+                <h1 class="text-2xl md:text-3xl font-bold text-white">
+                    📊 M. Muli Statistics & Data
+                </h1>
+                <div class="flex gap-3">
+                    <button onclick="window.location.href='index.html'" class="px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg font-semibold transition-all">
+                        ← Voters List
+                    </button>
+                    <button onclick="window.location.href='profile.html'" class="px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg font-semibold transition-all">
+                        🏝️ Island Profile
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 py-8">
+        
+        <!-- Data Comparison Section -->
+        <section class="bg-white/95 rounded-2xl p-8 mb-8 shadow-xl">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center gap-3">
+                <span>📊</span>
+                <span>Data Comparison & Analysis</span>
+            </h2>
+            
+            <!-- Comparison Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <!-- Official Data -->
+                <div class="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-xl border-2 border-green-300">
+                    <h3 class="text-xl font-bold text-green-800 mb-4 flex items-center gap-2">
+                        <span>🏛️</span>
+                        <span>Official Island Data</span>
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center bg-white/70 p-3 rounded-lg">
+                            <span class="text-gray-700 font-semibold">Population</span>
+                            <span class="text-2xl font-bold text-green-700">1,042</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-white/70 p-3 rounded-lg">
+                            <span class="text-gray-700 font-semibold">Households</span>
+                            <span class="text-2xl font-bold text-green-700">150</span>
+                        </div>
+                        <p class="text-sm text-gray-600 italic mt-4">Source: Muli Council Official Website</p>
+                    </div>
+                </div>
+
+                <!-- Voters Database -->
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl border-2 border-blue-300">
+                    <h3 class="text-xl font-bold text-blue-800 mb-4 flex items-center gap-2">
+                        <span>🗳️</span>
+                        <span>Voters Database</span>
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center bg-white/70 p-3 rounded-lg">
+                            <span class="text-gray-700 font-semibold">Registered Voters</span>
+                            <span class="text-2xl font-bold text-blue-700" id="totalResidents">792</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-white/70 p-3 rounded-lg">
+                            <span class="text-gray-700 font-semibold">Registered Houses</span>
+                            <span class="text-2xl font-bold text-blue-700" id="totalHouses">170</span>
+                        </div>
+                        <p class="text-sm text-gray-600 italic mt-4">Source: Local Voters Registry Database</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Deduction Analysis -->
+            <div class="bg-gradient-to-br from-orange-50 to-red-50 p-6 rounded-xl border-2 border-orange-300">
+                <h3 class="text-xl font-bold text-orange-800 mb-4 flex items-center gap-2">
+                    <span>⚖️</span>
+                    <span>Data Variance Analysis</span>
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-white/70 p-4 rounded-lg">
+                        <div class="text-sm text-gray-600 mb-2">Population Variance</div>
+                        <div class="text-3xl font-bold text-orange-700">
+                            <span id="populationDiff">+250</span>
+                        </div>
+                        <p class="text-xs text-gray-600 mt-2">
+                            Official population exceeds voter registry (likely includes minors, non-voters)
+                        </p>
+                    </div>
+                    <div class="bg-white/70 p-4 rounded-lg">
+                        <div class="text-sm text-gray-600 mb-2">Household Variance</div>
+                        <div class="text-3xl font-bold text-orange-700">
+                            <span id="householdDiff">+20</span>
+                        </div>
+                        <p class="text-xs text-gray-600 mt-2">
+                            Voter database shows more addresses (possibly including empty/unregistered homes)
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-4 p-4 bg-yellow-50 border-l-4 border-yellow-500 rounded">
+                    <p class="text-sm text-gray-700">
+                        <strong>Note:</strong> Differences are normal. Official data includes all residents (children, elderly), 
+                        while voter database only includes eligible voters. House counts may vary based on registration methods.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- View Toggle Buttons -->
+        <div class="flex justify-center gap-4 mb-8">
+            <button onclick="showView('houses')" id="housesBtn" class="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold shadow-lg hover:bg-blue-700 transition-all">
+                🏘️ Houses List View
+            </button>
+            <button onclick="showView('residents')" id="residentsBtn" class="px-6 py-3 bg-white/80 text-gray-800 rounded-lg font-semibold shadow-lg hover:bg-white transition-all">
+                👥 Residents List View
+            </button>
+        </div>
+
+        <!-- Houses List View -->
+        <section id="housesView" class="bg-white/95 rounded-2xl p-8 shadow-xl">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold text-gray-800 flex items-center gap-3">
+                    <span>🏘️</span>
+                    <span>All Houses in M. Muli</span>
+                </h2>
+                <div class="text-lg font-semibold text-gray-600">
+                    Total: <span id="housesCount" class="text-blue-600">170</span> Houses
+                </div>
+            </div>
+
+            <!-- Search Box for Houses -->
+            <div class="mb-6">
+                <input type="text" id="houseSearch" placeholder="🔍 Search by house number or address..." 
+                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none">
+            </div>
+
+            <!-- Houses Table -->
+            <div class="overflow-x-auto">
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-blue-600 text-white">
+                            <th class="px-4 py-3 text-left">#</th>
+                            <th class="px-4 py-3 text-left">House Number</th>
+                            <th class="px-4 py-3 text-left">Address</th>
+                            <th class="px-4 py-3 text-left">Head of House</th>
+                            <th class="px-4 py-3 text-center">Residents</th>
+                            <th class="px-4 py-3 text-center">Head Count</th>
+                        </tr>
+                    </thead>
+                    <tbody id="housesTableBody">
+                        <tr>
+                            <td colspan="6" class="text-center py-8 text-gray-500">
+                                Loading houses data...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Residents List View -->
+        <section id="residentsView" class="bg-white/95 rounded-2xl p-8 shadow-xl hidden">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold text-gray-800 flex items-center gap-3">
+                    <span>👥</span>
+                    <span>All Residents in M. Muli</span>
+                </h2>
+                <div class="text-lg font-semibold text-gray-600">
+                    Total: <span id="residentsCount" class="text-blue-600">792</span> Residents
+                </div>
+            </div>
+
+            <!-- Search Box for Residents -->
+            <div class="mb-6">
+                <input type="text" id="residentSearch" placeholder="🔍 Search by resident name..." 
+                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none">
+            </div>
+
+            <!-- Residents Table -->
+            <div class="overflow-x-auto">
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-purple-600 text-white">
+                            <th class="px-4 py-3 text-left">#</th>
+                            <th class="px-4 py-3 text-left">Name</th>
+                            <th class="px-4 py-3 text-left">House Number</th>
+                            <th class="px-4 py-3 text-left">Address</th>
+                            <th class="px-4 py-3 text-center">Head of House</th>
+                        </tr>
+                    </thead>
+                    <tbody id="residentsTableBody">
+                        <tr>
+                            <td colspan="5" class="text-center py-8 text-gray-500">
+                                Loading residents data...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white/10 backdrop-blur-xl border-t border-white/20 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center text-white">
+            <p class="text-lg font-semibold mb-2">M. Muli Statistics & Data Analysis</p>
+            <p class="text-sm text-white/80">Comprehensive Overview of Houses & Residents</p>
+        </div>
+    </footer>
+
+    <script src="statistics.js"></script>
+
+</body>
+</html>
