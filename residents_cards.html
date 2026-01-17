@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M. Muli Residents Profiles</title>
+    <link rel="stylesheet" href="styles_modern.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-purple-900 font-sans">
+    <nav class="sticky top-0 z-50 bg-gradient-to-b from-blue-900/80 to-blue-900/60 backdrop-blur-md border-b border-white/20 shadow-2xl transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-wrap items-center justify-between gap-4 mb-6">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-white drop-shadow-lg">
+                🏝️ M. Muli Residents Profiles
+                <span id="navbarGuaranteeCounter" class="ml-4 px-3 py-1 rounded-full bg-teal-500 text-white text-base font-bold shadow-lg align-middle">Guarantee: 0</span>
+                <span id="navbarOthersCounter" class="ml-2 px-3 py-1 rounded-full bg-purple-500 text-white text-base font-bold shadow-lg align-middle">Others: 0</span>
+                <button id="showOthersBtn" class="ml-4 px-4 py-1 rounded-full bg-gray-200 text-gray-800 font-semibold shadow hover:bg-gray-300 transition">Others</button>
+            </h1>
+            <div class="flex gap-2">
+                <a href="index.html" class="px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-full font-semibold transition-all border-2 border-white/50 hover:scale-105">🏠 Houses</a>
+                <a href="residents_cards.html" class="px-4 py-2 bg-teal-500 text-white rounded-full font-semibold border-2 border-white/50 cursor-default">👤 Residents</a>
+            </div>
+        </div>
+    </nav>
+    <section class="py-12 px-4">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-white text-center mb-3 drop-shadow-lg">
+                All Residents of M. Muli
+            </h2>
+            <p class="text-xl text-white/90 text-center mb-10">
+                Every resident on the island, shown as a profile card. (Details are placeholders unless data is available)
+            </p>
+            <div id="residentsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Resident cards will be populated by JS -->
+            </div>
+        </div>
+    </section>
+    <script>
+    // Fetch all residents from database.json and generate cards
+    async function loadResidents() {
+        try {
+            const response = await fetch('database.json');
+            const data = await response.json();
+            const allResidents = [];
+            data.houses.forEach(house => {
+                if (house.residents_list && Array.isArray(house.residents_list)) {
+                    house.residents_list.forEach(resident => {
+                        allResidents.push({
+                            name: resident,
+                            house: house.name
+                        });
+                    });
+                }
+            });
+            const grid = document.getElementById('residentsGrid');
+            grid.innerHTML = '';
+            // Add guarantee votes counter
+            let guaranteeCount = 0;
+            const counterDiv = document.createElement('div');
+            counterDiv.id = 'guaranteeCounter';
+            counterDiv.className = 'text-xl font-bold text-white mb-6';
+            counterDiv.textContent = `Guarantee Votes: 0`;
+            grid.parentNode.insertBefore(counterDiv, grid);
+
+            function updateCounter() {
+                const guaranteeChecked = document.querySelectorAll('.guarantee-checkbox:checked').length;
+                const othersChecked = document.querySelectorAll('.others-checkbox:checked').length;
+                counterDiv.textContent = `Guarantee Votes: ${guaranteeChecked} | Others: ${othersChecked}`;
+                const navbarGuarantee = document.getElementById('navbarGuaranteeCounter');
+                if (navbarGuarantee) {
+                    navbarGuarantee.textContent = `Guarantee: ${guaranteeChecked}`;
+                }
+                const navbarOthers = document.getElementById('navbarOthersCounter');
+                if (navbarOthers) {
+                    navbarOthers.textContent = `Others: ${othersChecked}`;
+                }
+            }
+
+            allResidents.forEach((resident, idx) => {
+                const card = document.createElement('div');
+                card.className = 'resident-item flex flex-col items-center';
+                if (resident.house === 'Aahiyaa') {
+                    card.style.background = 'linear-gradient(135deg, #14b8a6 0%, #2dd4bf 100%)';
+                    card.style.color = 'white';
+                }
+                card.innerHTML = `
+                    <div class="resident-avatar bg-gradient-to-br from-blue-600 to-purple-600 text-white flex items-center justify-center text-2xl font-bold mb-2" style="width:48px;height:48px;border-radius:50%;">${idx + 1}</div>
+                    <div class="resident-info text-center">
+                        <div class="resident-name text-lg font-semibold ${resident.house === 'Aahiyaa' ? 'text-white' : 'text-gray-900'}">${resident.name}</div>
+                        <div class="resident-role text-sm ${resident.house === 'Aahiyaa' ? 'text-teal-100' : 'text-gray-500'} mb-2">House: ${resident.house}</div>
+                    </div>
+                    <div class="flex gap-4 mt-2">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" class="guarantee-checkbox" />
+                            <span class="text-white text-sm">Guarantee</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" class="others-checkbox" />
+                            <span class="text-purple-200 text-sm">Others</span>
+                        </label>
+                    </div>
+                `;
+                // Add event listeners for checkboxes
+                card.querySelector('.guarantee-checkbox').addEventListener('change', updateCounter);
+                card.querySelector('.others-checkbox').addEventListener('change', updateCounter);
+                grid.appendChild(card);
+            });
+
+            // Optional: Show only 'Others' checked cards when button is clicked
+            document.getElementById('showOthersBtn').addEventListener('click', function() {
+                const cards = document.querySelectorAll('.resident-item');
+                cards.forEach(card => {
+                    const othersBox = card.querySelector('.others-checkbox');
+                    if (othersBox && othersBox.checked) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                // Add a way to reset view (clicking button again shows all)
+                this.textContent = this.textContent === 'Others' ? 'Show All' : 'Others';
+                if (this.textContent === 'Show All') {
+                    this.classList.add('bg-teal-500','text-white');
+                } else {
+                    this.classList.remove('bg-teal-500','text-white');
+                }
+                this.onclick = () => {
+                    document.querySelectorAll('.resident-item').forEach(card => card.style.display = '');
+                    this.textContent = 'Others';
+                    this.classList.remove('bg-teal-500','text-white');
+                    this.onclick = null;
+                };
+            });
+        } catch (error) {
+            console.error('Error loading residents:', error);
+        }
+    }
+    loadResidents();
+    </script>
+</body>
+</html>
